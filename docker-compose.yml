@@ -1,18 +1,22 @@
 version: '2'
 services:
   rabbit1:
-    image: shelbert/rabbitmq-cluster:0.1
+    build: .
     hostname: rabbit1
     environment:
       RABBITMQ_ERLANG_COOKIE: changeit
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
     ports:
     - 15671:15672/tcp
     - 5671:5672/tcp
   rabbit2:
-    image: shelbert/rabbitmq-cluster:0.1
+    build: .
     hostname: rabbit2
     environment:
       RABBITMQ_ERLANG_COOKIE: changeit
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
       RABBITMQ_CLUSTER_NODES: rabbit@rabbit1
     links:
     - rabbit1:rabbit1
@@ -20,10 +24,12 @@ services:
     - 15672:15672/tcp
     - 5672:5672/tcp
   rabbit3:
-    image: shelbert/rabbitmq-cluster:0.1
+    build: .
     hostname: rabbit3
     environment:
       RABBITMQ_ERLANG_COOKIE: changeit
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
       RABBITMQ_CLUSTER_NODES: rabbit@rabbit1
     links:
     - rabbit1:rabbit1

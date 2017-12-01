@@ -9,7 +9,7 @@ RUN rabbitmq-plugins enable rabbitmq_shovel_management --offline
 COPY rabbit-cluster-init.sh /opt/rabbit/rabbit-cluster-init.sh
 RUN chmod +x /opt/rabbit/rabbit-cluster-init.sh
 RUN chown rabbitmq:rabbitmq /opt/rabbit/rabbit-cluster-init.sh
-USER rabbitmq
 
-ENTRYPOINT ["docker-entrypoint.sh"]
-CMD /opt/rabbit/rabbit-cluster-init.sh
+ENTRYPOINT ["/opt/rabbit/rabbit-cluster-init.sh"]
+
+CMD ["rabbitmq-server"]
