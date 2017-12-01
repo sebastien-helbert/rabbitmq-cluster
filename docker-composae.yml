@@ -1,0 +1,32 @@
+version: '2'
+services:
+  rabbit1:
+    image: shelbert/rabbitmq-cluster:0.1
+    hostname: rabbit1
+    environment:
+      RABBITMQ_ERLANG_COOKIE: changeit
+    ports:
+    - 15671:15672/tcp
+    - 5671:5672/tcp
+  rabbit2:
+    image: shelbert/rabbitmq-cluster:0.1
+    hostname: rabbit2
+    environment:
+      RABBITMQ_ERLANG_COOKIE: changeit
+      RABBITMQ_CLUSTER_NODES: rabbit@rabbit1
+    links:
+    - rabbit1:rabbit1
+    ports:
+    - 15672:15672/tcp
+    - 5672:5672/tcp
+  rabbit3:
+    image: shelbert/rabbitmq-cluster:0.1
+    hostname: rabbit3
+    environment:
+      RABBITMQ_ERLANG_COOKIE: changeit
+      RABBITMQ_CLUSTER_NODES: rabbit@rabbit1
+    links:
+    - rabbit1:rabbit1
+    ports:
+    - 15673:15672/tcp
+    - 5673:5672/tcp
