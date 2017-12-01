@@ -10,6 +10,6 @@ COPY rabbit-cluster-init.sh /opt/rabbit/rabbit-cluster-init.sh
 RUN chmod +x /opt/rabbit/rabbit-cluster-init.sh
 RUN chown rabbitmq:rabbitmq /opt/rabbit/rabbit-cluster-init.sh
 
-ENTRYPOINT ["/opt/rabbit/rabbit-cluster-init.sh"]
+ENTRYPOINT ["/opt/rabbit/rabbit-cluster-entrypoint.sh"]
 
 CMD ["rabbitmq-server"]
