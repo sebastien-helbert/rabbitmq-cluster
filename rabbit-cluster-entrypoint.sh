@@ -2,7 +2,13 @@
 set -eu 
 IFS=$'\n\t'
 
-if [ "$1" = 'rabbitmq-server' ]; then
+
+shouldJoinCluster=0
+if [ ! -f /var/lib/rabbitmq/rabbit-cluster-$(hostname)-initialized.flag ]; then
+	shouldJoinCluster=1
+fi
+
+if [ "$1" = 'rabbitmq-server' ] && [ "$shouldJoinCluster" ]; then
 	(
 		sleep 10
 		  
@@ -20,7 +26,9 @@ if [ "$1" = 'rabbitmq-server' ]; then
 		  IFS=','; read -ra xs <<< "$RABBITMQ_CLUSTER_NODES"
 		  for i in "${xs[@]}"; do
 			echo "<< Joining cluster with [$i] ... >>"
+			set +e
 			rabbitmqctl join_cluster "$i"
+			set -e
 			echo "<< Joining cluster with [$i] DONE >>"
 		  done
 
