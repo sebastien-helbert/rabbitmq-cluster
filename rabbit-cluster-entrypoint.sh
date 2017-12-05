@@ -2,18 +2,12 @@
 set -eu 
 IFS=$'\n\t'
 
-
-shouldJoinCluster=0
-if [ ! -f /var/lib/rabbitmq/rabbit-cluster-$(hostname)-initialized.flag ]; then
-	shouldJoinCluster=1
-fi
-
-if [ "$1" = 'rabbitmq-server' ] && [ "$shouldJoinCluster" ]; then
+if [ "$1" = 'rabbitmq-server' ]; then
 	(
 		sleep 10
 		  
 		if [ -z "${RABBITMQ_CLUSTER_NODES-}" ]; then
-		  echo "Starting Single Server Instance"
+		  echo "Starting Server Instance"
 		else
 		  echo "Starting Clustered Server Instance"
 
